@@ -1,0 +1,49 @@
+{
+  "name": "zicli-mockup-api",
+  "version": "1.0.0",
+  "description": "zicli assessment",
+  "main": "app.js",
+  "scripts": {
+    "start": "DEBUG=app nodemon ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./app.js",
+    "migrate": "./node_modules/.bin/sequelize db:migrate",
+    "undo-migrate": "./node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed": "./node_modules/.bin/sequelize db:seed:all",
+    "undo-seed": "./node_modules/.bin/sequelize db:seed:undo:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razaqfatiu/Zicli-mockup-API.git"
+  },
+  "author": "Fatiu Isiaka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razaqfatiu/Zicli-mockup-API/issues"
+  },
+  "homepage": "https://github.com/razaqfatiu/Zicli-mockup-API#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.8",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "logger": "0.0.1",
+    "morgan": "^1.9.1",
+    "pg": "^7.18.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "sequelize-cli": "^5.5.1"
+  }
+}
