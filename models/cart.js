@@ -1,7 +1,7 @@
 
 const { sequelize, Sequelize } = require('../config/db-config');
 
-const Cart = sequelize.define('cart', {
+const Cart = sequelize.define('Carts', {
   cartId: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -11,11 +11,16 @@ const Cart = sequelize.define('cart', {
   productId: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Products',
+      key: 'productId',
+    },
+    onDelete: 'CASCADE',
   },
   userId: {
     type: Sequelize.INTEGER,
     references: {
-      model: 'users',
+      model: 'Users',
       key: 'userId',
     },
     onDelete: 'CASCADE',

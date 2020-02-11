@@ -49,10 +49,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use('/media', express.static(path.join(__dirname, 'media')));
-// app.use('/product-images', express.static(path.join(__dirname, 'media/product-images')));
+app.use('/media', express.static(path.join(__dirname, 'media')));
+app.use('/product-images', express.static(path.join(__dirname, 'media/product-images')));
 
-app.use('/', indexRouter);
+app.use('/api/v1', indexRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

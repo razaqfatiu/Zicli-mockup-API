@@ -22,6 +22,18 @@ module.exports = {
       type: Sequelize.FLOAT,
       allowNull: false,
     },
+    imageUrl: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    fileName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    inStock: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
     uploadedBy: {
       type: Sequelize.INTEGER,
       references: {
@@ -40,8 +52,6 @@ module.exports = {
     },
   }),
   // eslint-disable-next-line no-unused-vars
-  down: (queryInterface, Sequelize) => {
-    queryInterface.removeConstraint('Carts', 'Carts_productId_fkey');
-    return queryInterface.dropTable('Products');
-  },
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Products')
+  ,
 };
