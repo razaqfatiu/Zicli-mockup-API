@@ -8,7 +8,25 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const http = require('http');
 const debug = require('debug')('app');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const indexRouter = require('./routes/index');
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Zicli Mock-up API',
+      version: '1.0.0',
+      description: 'Shopping API for buying and selling products',
+      contact: 'email: razaqfatiu@gmail.com',
+    },
+    servers: ['http://localhost:4444'],
+    host: 'http://localhost:4444',
+    basePath: '/api/v1',
+  },
+  apis: ['./routes/*.js'],
+};
+
 
 const app = express();
 const server = http.createServer(app);
@@ -16,6 +34,9 @@ const port = process.env.PORT || '5000';
 // const db = require('./models/index');
 const { sequelize } = require('./config/db-config');
 
+// const swaggerDocs = require('./swagger.json');
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api/v1/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 (async function () {
   try {
@@ -49,10 +70,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use('/media', express.static(path.join(__dirname, 'media')));
-// app.use('/product-images', express.static(path.join(__dirname, 'media/product-images')));
+app.use('/media', express.static(path.join(__dirname, 'media')));
+app.use('/product-images', express.static(path.join(__dirname, 'media/product-images')));
 
-app.use('/', indexRouter);
+app.use('/api/v1', indexRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

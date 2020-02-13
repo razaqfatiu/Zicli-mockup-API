@@ -1,6 +1,6 @@
 const { sequelize, Sequelize } = require('../config/db-config');
 
-const Product = sequelize.define('product', {
+const Product = sequelize.define('Products', {
   productId: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -27,6 +27,10 @@ const Product = sequelize.define('product', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  fileName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   inStock: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
@@ -34,7 +38,7 @@ const Product = sequelize.define('product', {
   uploadedBy: {
     type: Sequelize.INTEGER,
     references: {
-      model: 'users',
+      model: 'Users',
       key: 'userId',
     },
     onDelete: 'CASCADE',

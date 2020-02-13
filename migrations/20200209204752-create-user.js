@@ -38,9 +38,5 @@ module.exports = {
     },
   }),
   // eslint-disable-next-line no-unused-vars
-  down: (queryInterface, Sequelize) => {
-    queryInterface.removeConstraint('Products', 'Product_uploadedBy_fkey');
-    queryInterface.removeConstraint('Carts', 'Carts_userId_fkey');
-    return queryInterface.dropTable('Users');
-  },
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Users'),
 };
