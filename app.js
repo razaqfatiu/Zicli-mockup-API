@@ -36,7 +36,7 @@ const { sequelize } = require('./config/db-config');
 
 // const swaggerDocs = require('./swagger.json');
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api/v1/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 (async function () {
   try {
