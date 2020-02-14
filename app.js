@@ -12,20 +12,20 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const indexRouter = require('./routes/index');
 
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      title: 'Zicli Mock-up API',
-      version: '1.0.0',
-      description: 'Shopping API for buying and selling products',
-      contact: 'email: razaqfatiu@gmail.com',
-    },
-    servers: ['http://localhost:4444'],
-    host: 'http://localhost:4444',
-    basePath: '/api/v1',
-  },
-  apis: ['./routes/*.js'],
-};
+// const swaggerOptions = {
+//   swaggerDefinition: {
+//     info: {
+//       title: 'Zicli Mock-up API',
+//       version: '1.0.0',
+//       description: 'Shopping API for buying and selling products',
+//       contact: 'email: razaqfatiu@gmail.com',
+//     },
+//     servers: ['https://zicli-mockup-api.herokuapp.com/'],
+//     host: 'https://zicli-mockup-api.herokuapp.com/',
+//     basePath: '/api/v1',
+//   },
+//   apis: ['./routes/*.js'],
+// };
 
 
 const app = express();
@@ -35,8 +35,8 @@ const port = process.env.PORT || '5000';
 const { sequelize } = require('./config/db-config');
 
 // const swaggerDocs = require('./swagger.json');
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 (async function () {
   try {
