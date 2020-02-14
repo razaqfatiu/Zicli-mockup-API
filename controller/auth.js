@@ -45,7 +45,7 @@ module.exports = {
         const { email, password } = req.body;
         const checkUser = await User.findAll({ where: { email } });
         if (checkUser.length === 0) {
-          return res.status(400).json({ status: 400, error: 'Invalid email or password' });
+          return res.status(400).json({ status: 400, error: 'User not found' });
         }
         const compareHash = await bcrypt.compare(password, checkUser[0].dataValues.password);
         if (!compareHash) {
