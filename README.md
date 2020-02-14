@@ -15,15 +15,19 @@ http://zicli-mockup-api.herokuapp.com/api/v1
 
 # API endpoints
 POST /auth/signup  User/Admin Signup
+
 POST /auth/signin    User/Admin Login
 
 POST /products  Admin post product
+
 GET /products   User/Admin see list of products
 
 PATCH /products/:productId  Admin Update Product
+
 DELETE /products/:productId Admin delete Product
 
 POST /carts/:productId  User add item to their cart
+
 DELETE /carts/:productId    Users can delete selected items from their carts
 
 GET /carts  User can see items in their carts
