@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Product = require('../models/product');
 
-const path = './media/product-images';
+const path = `${__dirname}/media/product-images`;
 
 module.exports = {
   adminAddProduct(req, res) {
