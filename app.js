@@ -8,8 +8,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const http = require('http');
 const debug = require('debug')('app');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+// const swaggerJsDoc = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
 const indexRouter = require('./routes/index');
 
 // const swaggerOptions = {
