@@ -15,6 +15,7 @@ indexRouter.post('/auth/signup', signUp);
 indexRouter.post('/auth/signin', signIn);
 
 indexRouter.get('/products', auth, getProducts);
+
 indexRouter.post('/products', auth, multer, adminAddProduct);
 indexRouter.patch('/products/:productId', auth, multer, adminEditProduct);
 
