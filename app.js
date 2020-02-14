@@ -9,8 +9,10 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const debug = require('debug')('app');
 // const swaggerJsDoc = require('swagger-jsdoc');
-// const swaggerUi = require('swagger-ui-express');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 const indexRouter = require('./routes/index');
+
 
 // const swaggerOptions = {
 //   swaggerDefinition: {
@@ -36,7 +38,7 @@ const { sequelize } = require('./config/db-config');
 
 // const swaggerDocs = require('./swagger.json');
 // const swaggerDocs = swaggerJsDoc(swaggerOptions);
-// app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const swaggerDocs = YAML.load('./swagger.yaml');
 
 (async function () {
   try {
@@ -47,6 +49,7 @@ const { sequelize } = require('./config/db-config');
   }
 }());
 
+app.use('/api/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.set('port', port);
 

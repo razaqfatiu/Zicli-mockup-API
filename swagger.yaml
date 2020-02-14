@@ -1,0 +1,372 @@
+openapi: 3.0.0
+info:
+  title: Zicli API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: https://zicli-mockup-api.herokuapp.com/api/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://localhost:4444/api/v1
+    description: Optional server description, e.g. Internal staging server for testing
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Users
+      summary: Register user account.
+      description: Optional extended description in CommonMark or HTML.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                isAdmin:
+                  type: boolean
+      responses:
+        "201": # status code
+          description: User Account created Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  isAdmin:
+                    type: boolean
+          "400":
+            description: User account exists.
+  /auth/signin:
+    post:
+      tags:
+        - Users
+      summary: sign in user account.
+      description: user/admin account sign in.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200": # status code
+          description: User signed in Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  email:
+                    type: string
+                  isAdmin:
+                    type: boolean
+                  token:
+                    type: string
+          "400":
+            description: User account not found.
+          "401":
+            description: Invalid credentials.
+  /products:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Post Product.
+      description: Admin Post products.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                price:
+                  type: integer
+                inStock:
+                  type: boolean
+                imageUrl:
+                  in: "formData"
+                  description: "file to upload"
+                  required: true
+                  type: "file"
+      responses:
+        "201": # status code
+          description: Admin Posted a product Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+                  price:
+                    type: integer
+                  uploadedBy:
+                    type: string
+                  imageUrl:
+                    type: string
+                  inStock:
+                    type: boolean
+          "401":
+            description: Only Admins can post products.
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: get products.
+      description: get Uploaded products by admin.
+      responses:
+        "200": # status code
+          description: User signed in Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            category:
+                              type: string
+                            price:
+                              type: integer
+                            uploadedBy:
+                              type: string
+                            imageUrl:
+                              type: string
+                            inStock:
+                              type: boolean
+      "401":
+        description: Bad request.
+  /products/{productId}:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Post Product.
+      parameters:
+      - in: path
+        name: productId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+      description: Admin Post products.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                price:
+                  type: integer
+                inStock:
+                  type: boolean
+                imageUrl:
+                  in: "formData"
+                  description: "file to upload"
+                  required: true
+                  type: "file"
+      responses:
+        "201": # status code
+          description: Admin Updated a product Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+          "401":
+            description: Only Admins can Edit products.
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Post Product.
+      parameters:
+      - in: path
+        name: productId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+      description: Admin Post products.
+      responses:
+        "200": # status code
+          description: Admin Updated a product Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+          "401":
+            description: Only Admins can Delete products.
+  /carts/{productId}:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      summary: Post item.
+      parameters:
+      - in: path
+        name: productId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the product to get
+      description: Add Products to cart.
+      responses:
+        "201": # status code
+          description: Item added Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      cartId:
+                        type: integer
+                      userId:
+                        type: integer
+                      productId:
+                        type: integer
+          "404":
+            description: Product not found.
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      summary: Post Product.
+      parameters:
+      - in: path
+        name: cartId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the item to delete
+      description: delete item from cart.
+      responses:
+        "200": # status code
+          description: Item deleted Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  message:
+                    type: string
+          "404":
+            description: Product not found.
+  /carts:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      summary: get products.
+      description: get Uploaded products by admin.
+      responses:
+        "200": # status code
+          description: User signed in Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cartId:
+                          type: integer
+                        productId:
+                          type: integer
+                        userId:
+                          type: integer
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+      "401":
+        description: Bad request.
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
