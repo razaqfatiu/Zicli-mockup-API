@@ -7,11 +7,12 @@ Zicli Assessment
 Edit the .env.sample as .env and specfy the necessary connection gotten form your postgres database
 Run "npm run migrate" to create migrations
 To undo migrations run "npm run undo-migrate"
+
 then npm start will get you going on port 4444 !!!!!!!!!!!!
 
 
 # Hosted API URL
-http://zicli-mockup-api.herokuapp.com/api/v1
+http://zicli-mockup-api.herokuapp.com/
 
 # API endpoints
 POST /auth/signup  User/Admin Signup
