@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Zicli API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.9
+  description: Zicli Mock-up API
+  version: 1.0
 servers:
   - url: https://zicli-mockup-api.herokuapp.com/api/v1
     description: Optional server description, e.g. Main (production) server
@@ -14,7 +14,7 @@ paths:
       tags:
         - Users
       summary: Register user account.
-      description: Optional extended description in CommonMark or HTML.
+      description: Sign up user account.
       requestBody:
         required: true
         content:
@@ -199,8 +199,8 @@ paths:
         schema:
           type: integer
         required: true
-        description: Numeric ID of the user to get
-      description: Admin Post products.
+        description: Numeric ID of the product to get
+      description: Admin update products.
       requestBody:
         required: true
         content:
@@ -237,6 +237,8 @@ paths:
                     type: string
           "401":
             description: Only Admins can Edit products.
+          "404":
+            description: Product not found
     delete:
       security:
         - bearerAuth: []

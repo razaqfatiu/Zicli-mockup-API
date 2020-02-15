@@ -1,7 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const Product = require('../models/product');
 
-const path = `${__dirname}/media/product-images`;
+const paths = path.join('../', 'media', '/product-images');
+
 
 module.exports = {
   adminAddProduct(req, res) {
@@ -66,7 +68,11 @@ module.exports = {
           return res.status(400).json({ status: 400, error: 'Product Not found' });
         }
         const filN = findProduct[0].dataValues.fileName;
-        fs.unlinkSync(`${path}/${filN}`);
+        console.log(filN);
+
+        fs.unlink(`${paths}/${filN}`, (response, err) => {
+          if (err) res.status(404).json({ err });
+        });
 
         const updatedProduct = {
           name, description, category, price, inStock, uploadedBy, imageUrl, fileName,
@@ -105,8 +111,9 @@ module.exports = {
           return res.status(400).json({ status: 400, error: 'Product Not found' });
         }
         const filN = findProduct[0].dataValues.fileName;
-        fs.unlinkSync(`${path}/${filN}`);
-
+        fs.unlink(`${paths}/${filN}`, (response) => {
+          console.log(response);
+        });
         await Product.destroy({
           where: {
             productId,
@@ -117,6 +124,7 @@ module.exports = {
           message: 'product deleted successfully!!!',
         });
       } catch (error) {
+        console.log(error);
         return res.status(500).json({
           status: 500,
           error,
