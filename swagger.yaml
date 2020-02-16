@@ -4,10 +4,10 @@ info:
   description: Zicli Mock-up API
   version: 1.0
 servers:
-  - url: https://zicli-mockup-api.herokuapp.com/api/v1
-    description: Optional server description, e.g. Main (production) server
-  - url: http://localhost:4444/api/v1
-    description: Optional server description, e.g. Internal staging server for testing
+  - url: https://zicli-mockup-api.herokuapp.com/
+    description: Main (production) server
+  - url: http://localhost:4444/ 
+    description: Internal staging server for testing
 paths:
   /auth/signup:
     post:
@@ -54,6 +54,8 @@ paths:
                     type: boolean
           "400":
             description: User account exists.
+          "422":
+            description: Validation Error.
   /auth/signin:
     post:
       tags:
@@ -145,6 +147,8 @@ paths:
                     type: boolean
           "401":
             description: Only Admins can post products.
+          "422":
+            description: Validation Error.
     get:
       security:
         - bearerAuth: []
@@ -239,6 +243,8 @@ paths:
             description: Only Admins can Edit products.
           "404":
             description: Product not found
+          "422":
+            description: Validation Error.
     delete:
       security:
         - bearerAuth: []

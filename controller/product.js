@@ -1,11 +1,26 @@
 const fs = require('fs');
 const path = require('path');
+const { body, validationResult } = require('express-validator');
 const Product = require('../models/product');
 
 const paths = path.join('../', 'media', '/product-images');
 
-
 module.exports = {
+  productInputValidation: [
+    body('name', 'product name should not be empty').trim()
+      .not().isEmpty(),
+    body('description', 'Product description should not be empty').trim()
+      .not().isEmpty(),
+    body('category', 'Product Category should not be empty').trim()
+      .not().isEmpty()
+      .isLength({ min: 3 }),
+    body('price', 'Product Price should not be empty').trim()
+      .not().isEmpty(),
+    body('inStock', 'Select product state')
+      .not().isEmpty(),
+    body('imageUrl', 'Select product image')
+      .not().isEmpty(),
+  ],
   adminAddProduct(req, res) {
     (async () => {
       try {
@@ -14,6 +29,10 @@ module.exports = {
             status: 401,
             error: 'Only Admins can post Product',
           });
+        }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({ errors: errors.array() });
         }
         const {
           name, description, category, price, inStock,
@@ -68,7 +87,6 @@ module.exports = {
           return res.status(400).json({ status: 400, error: 'Product Not found' });
         }
         const filN = findProduct[0].dataValues.fileName;
-        console.log(filN);
 
         fs.unlink(`${paths}/${filN}`, (response, err) => {
           if (err) res.status(404).json({ err });
@@ -105,15 +123,12 @@ module.exports = {
         }
         const { productId } = req.params;
 
-
         const findProduct = await Product.findAll({ where: { productId } });
         if (findProduct.length < 1) {
           return res.status(400).json({ status: 400, error: 'Product Not found' });
         }
         const filN = findProduct[0].dataValues.fileName;
-        fs.unlink(`${paths}/${filN}`, (response) => {
-          console.log(response);
-        });
+        fs.unlink(`${paths}/${filN}`, (response) => res.status(400).json({ response }));
         await Product.destroy({
           where: {
             productId,
@@ -124,7 +139,6 @@ module.exports = {
           message: 'product deleted successfully!!!',
         });
       } catch (error) {
-        console.log(error);
         return res.status(500).json({
           status: 500,
           error,

@@ -8,26 +8,9 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const http = require('http');
 const debug = require('debug')('app');
-// const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const indexRouter = require('./routes/index');
-
-
-// const swaggerOptions = {
-//   swaggerDefinition: {
-//     info: {
-//       title: 'Zicli Mock-up API',
-//       version: '1.0.0',
-//       description: 'Shopping API for buying and selling products',
-//       contact: 'email: razaqfatiu@gmail.com',
-//     },
-//     servers: ['https://zicli-mockup-api.herokuapp.com/'],
-//     host: 'https://zicli-mockup-api.herokuapp.com/',
-//     basePath: '/api/v1',
-//   },
-//   apis: ['./routes/*.js'],
-// };
 
 
 const app = express();
@@ -56,7 +39,7 @@ app.set('port', port);
 // view engine setup
 
 app.use(logger('tiny'));
-// app.use(express.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

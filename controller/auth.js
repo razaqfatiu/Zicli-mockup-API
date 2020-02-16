@@ -1,11 +1,32 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 
 module.exports = {
+  userInputValidation: [
+    body('firstName', 'Firstname field cannot be empty').trim()
+      .not().isEmpty(),
+    body('lastName', 'Last Namefield cannot be empty').trim()
+      .not()
+      .isEmpty(),
+    body('email', 'Enter a valid email').isEmail().trim()
+      .not()
+      .isEmpty(),
+    body('password', 'Password cannot be empty and requires at least 6 character')
+      .isLength({ min: 3 }).trim()
+      .not()
+      .isEmpty(),
+    body('isAdmin', 'Specify user type')
+      .not().isEmpty(),
+  ],
   signUp(req, res) {
     (async () => {
       try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({ errors: errors.array() });
+        }
         const {
           firstName, lastName, email, password, isAdmin,
         } = req.body;
